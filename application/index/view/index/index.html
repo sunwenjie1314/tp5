@@ -1,0 +1,98 @@
+﻿{extend name="public/base"} {block name="seo"}
+<title>{$title|default='综合教务管理系统'}</title>
+<meta name="keywords"
+      content="Bootstrap模版,Bootstrap模版下载,Bootstrap教程,Bootstrap中文"/>
+<meta name="description"
+      content="站长素材提供Bootstrap模版,Bootstrap教程,Bootstrap中文翻译等相关Bootstrap插件下载"/>
+</head>
+{/block}
+<body>
+<div class="navbar navbar-default" id="navbar">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('navbar', 'fixed')
+        } catch (e) {
+        }
+    </script>
+    {include file="public/header"}
+    <!-- /.container -->
+</div>
+<div class="main-container" id="main-container">
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text">111111111</span>
+        </a>
+        {include file="public/menu"}
+        {block name="content"}
+        <div class="main-content">
+            <div class="page-content" style="padding-bottom: 0px;height: 100%;">
+                <div class="row" style="height: auto;">
+                    <div class="col-xs-12" style="padding-left: 5px; height: 100%;">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active"><a href="#Index" role="tab"
+                                                  data-toggle="tab"><i class="icon-home"></i>系统首页</a></li>
+                        </ul>
+                        <div class="tab-content" style="height: auto;">
+                            <div role="tabpanel" class="tab-pane active" id="Index"
+                                 style="height: auto;">
+                                <p>登录次数:{$Think.session.user_info.login_count}</p>
+                                <p>上次登录IP:{$Request.ip} 上次登录时间:{:date("Y-m-d
+                                    H:i:s",$Think.session.user_info.login_login_time)}</p>
+                                <table class="table table-bordered table-hover"
+                                       style="width: 45%">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2" scope="col">服务器运行信息</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td width="45%">服务器计算机名:</td>
+                                        <td>{$Request.host}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>服务器IP地址:</td>
+                                        <td>{$Request.ip}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>服务器域名:</td>
+                                        <td>{$Request.domain}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>当前PHP版本:</td>
+                                        <td>{$Think.const.PHP_VERSION}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>服务器版本:</td>
+                                        <td>{$Think.const.PHP_OS}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>当前请求URL:</td>
+                                        <td>{$Request.url.true}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>当前Session数量:</td>
+                                        <td>{:count($_SESSION)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>当前SessionID:</td>
+                                        <td>{:session_id()}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/block}
+    </div>
+</div>
+{include file="public/foot"}
+<!-- inline scripts related to this page -->
+</body>
+
+
+</html>
