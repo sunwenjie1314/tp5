@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:70:"D:\wamp\www\tp5\public/../application/index\view\user\admin_List2.html";i:1520847258;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:70:"D:\wamp\www\tp5\public/../application/index\view\user\admin_List2.html";i:1520930156;}*/ ?>
 ﻿
 <html lang="en">
 <head>
@@ -42,14 +42,15 @@
             <!-- PAGE CONTENT BEGINS -->
             <div class="row">
                 <div class="row" style="height: auto;">
-                    <form id="select_user" class="from-inline" method="post">
+                    <form id="search_user" class="from-inline" method="post">
                         <div class="table-header">用户信息管理</div>
                         <table class="table table-hover " style="border: 1px solid #1a1a1a;background: #FFFFFF;">
                             <tbody>
                             <tr>
                                 <td style="width:6%;">用户名称:</td>
-                                <td style="width:10%;"><input width="200px;" type="text" id="se_name" name="se_name"
-                                                              placeholder="请输入用户名称"></td>
+                                <td style="width:10%;">
+                                    <input width="200px;" type="text" id="se_name" name="se_name"
+                                           placeholder="请输入用户名称"></td>
                                 <td style="width:6%;">用户角色:</td>
                                 <td style="width:6%;"><select name="se_role" id="se_role">
                                         <option value="">请选择用户角色</option>
@@ -60,7 +61,8 @@
                                         <option value="40">维护部经理</option>
                                     </select></td>
                                 <td style="width:6%;">是否启用:</td>
-                                <td style="width:6%;"><select class="" name="se_status" id="se_status">
+                                <td style="width:6%;">
+                                    <select name="se_status" id="se_status">
                                         <option value="">请选择角色状态</option>
                                         <option value="0">不启用</option>
                                         <option value="1">启&nbsp;&nbsp;用</option>
@@ -142,7 +144,7 @@
                                                 <span class="label label-sm label-warning">已经停用
 										</span><?php endif; ?>
                                         </td>
-                                        <td class=" ">
+                                        <td class=" " style="width: 15%;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons"
                                                  id="cz">
                                                 <?php if (\think\Session::get('user_info.name') == 'admin'): if ($vo['status'] == '已经启用'): ?>
@@ -192,15 +194,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="dataTables_paginate paging_bootstrap">
-                                <ul class="pagination">
-                                    <li class="prev disabled"><a href="#"><i
-                                                    class="icon-double-angle-left"></i></a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li class="next"><a href="#"><i
-                                                    class="icon-double-angle-right"></i></a></li>
-                                </ul>
+                                <?php echo $page; ?>
                             </div>
                         </div>
                     </div>
@@ -429,14 +423,17 @@
     function check_form() {
         if (flag == 'update') {
             var form_data = $('#form_data').serialize();
+            //form_data=form_data;$.param({"act":"update"})+'&'+
             $.ajax({
                 type: 'POST',
                 url: "<?php echo url('user/updateAdmin'); ?>",
                 data: form_data,
+                // data:{"data":form_data,"act":"update"},
                 dataType: 'JSON',
                 success: function (data) {
                     if (data.status == 1) {
                         alert(data.message);
+                        //alert(act.val());
                         location.reload();
                     } else {
                         alert(data.message);
@@ -581,6 +578,7 @@
         $('#myModalLabel').html("编辑用户");
         $('#submit').html("保存");
         flag = "update";
+
         $.ajax({
             url: "<?php echo url('user/adminEdit'); ?>",
             data: {"id": id, "act": "get"},
@@ -590,6 +588,7 @@
                     var data = data;
                     var data_obj = eval("(" + data + ")");
                     var role_count = $("#role option").length;
+
                     //alert(data_obj.password)
                     $("#id").val(data_obj.id);
                     $("#name").val(data_obj.name);
@@ -610,6 +609,7 @@
                             break;
                         }
                     }
+
                 } else {
                     alert("出现了未知错误。");
                 }

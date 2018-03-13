@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:6:{s:65:"D:\wamp\www\tp5\public/../application/index\view\index\index.html";i:1520328247;s:55:"D:\wamp\www\tp5\application\index\view\public\base.html";i:1519351966;s:55:"D:\wamp\www\tp5\application\index\view\public\head.html";i:1518160135;s:57:"D:\wamp\www\tp5\application\index\view\public\header.html";i:1518168047;s:55:"D:\wamp\www\tp5\application\index\view\public\menu.html";i:1518168061;s:55:"D:\wamp\www\tp5\application\index\view\public\foot.html";i:1520585537;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:6:{s:65:"D:\wamp\www\tp5\public/../application/index\view\index\index.html";i:1520848600;s:55:"D:\wamp\www\tp5\application\index\view\public\base.html";i:1520848599;s:55:"D:\wamp\www\tp5\application\index\view\public\head.html";i:1520848600;s:57:"D:\wamp\www\tp5\application\index\view\public\header.html";i:1520848600;s:55:"D:\wamp\www\tp5\application\index\view\public\menu.html";i:1520848600;s:55:"D:\wamp\www\tp5\application\index\view\public\foot.html";i:1520848599;}*/ ?>
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +49,6 @@
         } catch (e) {
         }
     </script>
-
     <div class="navbar navbar-default" id="navbar">
         <script type="text/javascript">
             try {
@@ -132,7 +131,7 @@
                                         <p>登录次数:<?php echo \think\Session::get('user_info.login_count'); ?></p>
                                         <p>上次登录IP:<?php echo \think\Request::instance()->ip(); ?>
                                             上次登录时间:<?php echo date("Y-m-d
-								H:i:s", \think\Session::get('user_info.login_login_time')); ?></p>
+                                    H:i:s", \think\Session::get('user_info.login_login_time')); ?></p>
                                         <table class="table table-bordered table-hover"
                                                style="width: 45%">
                                             <thead>

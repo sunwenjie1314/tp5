@@ -87,78 +87,51 @@ class User extends Base
         Session::delete('user_info'); // 删除用户的全部信息
         $this->success('注销登录,正在返回', url('user/login'));
     }
-
+    /*
+     * @throws \think\exception\DbException
+     * */
     // 显示管理员列表
-    /*     public function adminList()
-        {
-            $this->view->assign('title', '管理员列表');
-            $this->view->assign('keywords', 'PHP中文网教学系统');
-            $this->view->count = User::count();
-            // 判断当前用户是否是admin用户
-            // 首先通过session来检测登录用户名
-            $userName = Session::get('user_info.name');
-            if ($userName == 'admin') {
-                $list = User::all(); // admin用户可以获取全部的记录，数据要经过模型获取器处理;
-            } else {
-                // 非admin用户只能查看自己的信息，数据经过模型获取器处理
-                // 这里使用all是为了共用模板，逻辑上使用get更为合适
-                $list = User::all([
-                    'name' => $userName
-                ]);
-            }
-            $this->view->assign('list', $list);
-            return $this->view->fetch('admin_List2');
-        } */
-    public function adminList2()
-    {
-        // 判断当前用户是否是admin用户
-        // 首先通过session来检测登录用户名
-        $userName = Session::get('user_info.name');
-        if ($userName == 'admin') {
-            $list = UserModel::all(); // admin用户可以获取全部的记录，数据要经过模型获取器处理;
-        } else {
-            // 非admin用户只能查看自己的信息，数据经过模型获取器处理
-            // 这里使用all是为了共用模板，逻辑上使用get更为合适
-            $list = UserModel::all([
-                'name' => $userName
-            ]);
-        }
-        $this->view->assign('list', $list);
-        //var_dump($list);
-        // die;
-        return $this->view->fetch('admin_List2');
-    }
-
     public function adminList(Request $request)
     {
         //实例化化User模型
         $user = new UserModel();
+        $pages = 10;
         if (!$_POST) {
             $userName = Session::get('user_info.name');
             if ($userName == 'admin') {
-                $result = $user::all();
+                $result = $user->paginate($pages);
             } else {
-                $result = $user::all([
-                    'name' => $userName
-                ]);
+                $result = $user->where(['name' => $userName])->paginate($pages);
             }
         } else {
-            //获取从后台传递过来的查询条件
-            $data = $request->param();
+            $flag = $request->param('name');  //用更新数据时表单的缓存中的字段做标识。
             $where = "";
-            if ($data['se_name'] != "") {
-                $where['name'] = $data['se_name'];
+            if ($flag != NULL) {
+                $userName = Session::get('user_info.name');
+                if ($userName == 'admin') {
+                    $result = $user->paginate($pages);
+                } else {
+                    $result = $user->where(['name' => $userName])->paginate($pages);
+                }
+            } else {
+                //获取从后台传递过来的查询条件
+                $data = $request->param();
+                if ($data['se_name'] != "") {
+                    $where['name'] = $data['se_name'];
+                }
+                if ($data['se_role'] != "") {
+                    $where['role'] = $data['se_role'];
+                }
+                if ($data['se_status'] != "") {
+                    $where['status'] = $data['se_status'];
+                }
             }
-            if ($data['se_role'] != "") {
-                $where['role'] = $data['se_role'];
-            }
-            if ($data['se_status'] != "") {
-                $where['status'] = $data['se_status'];
-            }
-            $result = $user->where($where)->select();
+            $result = $user->where($where)->paginate($pages);
         }
+        $page = $result->render();
         //从后台进行where查询
         $this->view->assign('list', $result);
+        $this->assign('page', $page);
         return $this->view->fetch('admin_List2');
     }
 
@@ -284,7 +257,6 @@ class User extends Base
         // 获取表单返回的数据
         $data = $request->post();
         $where['id'] = $data['id'];
-        //$data['name']='pte1';
         $data = [
             'name' => $data['name'],
             'password' => $data['password'],
